@@ -1,5 +1,6 @@
 let arrMathOperation = ['+','-', '*', '/'];
 let arrNumber = [...Array(10).keys()];
+let arrNumbAndMath = [...arrMathOperation, ...arrNumber];
 var arrObjectButton = [];
 
 class Button {
@@ -15,8 +16,7 @@ class Button {
         arrObjectButton.push(this);
     }
 }
-new Button('1');
-new Button('2');
-arrMathOperation.forEach(element => {
+arrNumbAndMath.forEach(element => {
     new Button(element);
 });
+// создать свою функцию eval с помощью регулярки
