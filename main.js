@@ -1,18 +1,22 @@
 let arrMathOperation = ['+','-', '*', '/'];
 let arrNumber = [...Array(10).keys()];
+var arrObjectButton = [];
 
 class Button {
     constructor (text) {
         this.text = text;
-        let btn =  document.createElement('button');
-        btn.innerText = text;
-        document.body.append(btn);
-        btn.addEventListener('click', () => {
+        let elem =  document.createElement('button');
+        this.getElem = elem;
+        elem.innerText = text;
+        document.body.append(elem);
+        elem.addEventListener('click', () => {
             console.log(this.text);
         });
-        return btn
-    }
-    setText(text) {
-        console.log(text);
+        arrObjectButton.push(this);
     }
 }
+new Button('1');
+new Button('2');
+arrMathOperation.forEach(element => {
+    new Button(element);
+});
