@@ -1,5 +1,8 @@
-class button {
-    constructor (text, isClick) {
+let arrMathOperation = ['+','-', '*', '/'];
+let arrNumber = [...Array(10).keys()];
+
+class Button {
+    constructor (text) {
         this.text = text;
         let btn =  document.createElement('button');
         btn.innerText = text;
