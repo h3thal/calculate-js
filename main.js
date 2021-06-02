@@ -36,8 +36,17 @@ function resultCalc(str) {
 }
 // создать свою функцию eval с помощью регулярки
 var teststr = '52432+4324+4324-3424';
-var regul = new RegExp('(\d+)(\+|\-|\*|\\)?', 'g');
+var regul = new RegExp("(\\d+)(\\+|\\-|\\*|\\\\)?", "g");
 // var regul = /(\d+)(\+|\-|\*|\\)?/g;
-var test = regul.exec(teststr);
+while (result = regul.exec(teststr)) {
+    console.log( `Найдено ${result[0]} на позиции ${result.index}` );
+    // Найдено JavaScript на позиции 9, затем
+    // Найдено javascript на позиции 31
+  }
+  while (result = regul.exec(teststr)) {
+    console.log( `Найдено ${result[0]} на позиции ${result.index}` );
+    // Найдено JavaScript на позиции 9, затем
+    // Найдено javascript на позиции 31
+  }
 
 new Calculate();
