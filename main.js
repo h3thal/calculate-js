@@ -30,7 +30,14 @@ class CalculateButton {
         arrObjectButton.push(this);
     }
 }
-
+function resultCalc(str) {
+    // const findMath = new RegExp('/(\d+)\s?(\+|\-|\*|\/)/g');
+    return str.toString().match(/(\d+)\s?(\+|\-|\*|\/)?/g)
+}
 // создать свою функцию eval с помощью регулярки
+var teststr = '52432+4324+4324-3424';
+var regul = new RegExp('(\d+)(\+|\-|\*|\\)?', 'g');
+// var regul = /(\d+)(\+|\-|\*|\\)?/g;
+var test = regul.exec(teststr);
 
 new Calculate();
