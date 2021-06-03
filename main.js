@@ -31,22 +31,37 @@ class CalculateButton {
     }
 }
 function resultCalc(str) {
-    // const findMath = new RegExp('/(\d+)\s?(\+|\-|\*|\/)/g');
-    return str.toString().match(/(\d+)\s?(\+|\-|\*|\/)?/g)
+    const findMath = new RegExp("(\\d+)(\\+|\\-|\\*|\\\\)?", "g");
+    var arrMatch = [...str.matchAll(findMath)];
+    for (let i = 0; arrMatch.length > 1; i++) {
+        console.log(i);
+        if ( i >= arrMatch.length - 1) 
+            i = 0;
+        if ( arrMatch[i][1] != undefined ) {
+            switch (arrMatch[i][1]) {
+                
+                case '+':
+                    arrMatch[i+1][0] = arrMatch[i][0] + arrMatch[i+1][0];
+                    arrMatch.splice(i,1);
+                    break;
+                case '-':
+
+                    break;
+            }
+        }
+    }
+    return arrMatch.length
 }
 // создать свою функцию eval с помощью регулярки
-var teststr = '52432+4324+4324-3424';
-var regul = new RegExp("(\\d+)(\\+|\\-|\\*|\\\\)?", "g");
+var str = '52432+4324+4324+3424';
+console.log();
 // var regul = /(\d+)(\+|\-|\*|\\)?/g;
-while (result = regul.exec(teststr)) {
-    console.log( `Найдено ${result[0]} на позиции ${result.index}` );
-    // Найдено JavaScript на позиции 9, затем
-    // Найдено javascript на позиции 31
-  }
-  while (result = regul.exec(teststr)) {
-    console.log( `Найдено ${result[0]} на позиции ${result.index}` );
-    // Найдено JavaScript на позиции 9, затем
-    // Найдено javascript на позиции 31
-  }
+// while (result = regul.exec(teststr)) {
+//     console.log( `Найдено ${result[0]} на позиции ${result.index}` );
+//     // Найдено JavaScript на позиции 9, затем
+//     // Найдено javascript на позиции 31
+//   }
+
+
 
 new Calculate();
