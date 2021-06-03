@@ -33,27 +33,30 @@ class CalculateButton {
 function resultCalc(str) {
     const findMath = new RegExp("(\\d+)(\\+|\\-|\\*|\\\\)?", "g");
     var arrMatch = [...str.matchAll(findMath)];
+    var i = 0;
     for (let i = 0; arrMatch.length > 1; i++) {
-        console.log(i);
         if ( i >= arrMatch.length - 1) 
             i = 0;
-        if ( arrMatch[i][1] != undefined ) {
-            switch (arrMatch[i][1]) {
-                
-                case '+':
-                    arrMatch[i+1][0] = arrMatch[i][0] + arrMatch[i+1][0];
-                    arrMatch.splice(i,1);
-                    break;
-                case '-':
-
-                    break;
-            }
+        countingCalc(i);
+    }
+    return arrMatch[0][1]
+}
+function countingCalc(i) {
+    if ( arrMatch[i][2] != undefined ) {           
+        switch (arrMatch[i][2]) {                
+            case '+':
+                arrMatch[i+1][1] = +arrMatch[i][1] + +arrMatch[i+1][1];
+                arrMatch.splice(i,1);
+                break;
+            case '-':
+                arrMatch[i+1][1] = +arrMatch[i][1] - +arrMatch[i+1][1];
+                arrMatch.splice(i,1);
+                break;
         }
     }
-    return arrMatch.length
 }
 // создать свою функцию eval с помощью регулярки
-var str = '52432+4324+4324+3424';
+var str = '1+10+300+5+4-100';
 console.log();
 // var regul = /(\d+)(\+|\-|\*|\\)?/g;
 // while (result = regul.exec(teststr)) {
