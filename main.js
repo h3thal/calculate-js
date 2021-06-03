@@ -39,11 +39,11 @@ function resultCalc(str) {
             if ( arrMatch[i][2] != undefined ) { 
                 switch (arrMatch[i][2]) {
                     case '*':
-                        arrMatch[i+1][1] *= +arrMatch[i][1];
+                        arrMatch[i+1][1] = +arrMatch[i+1][1] * +arrMatch[i][1];
                         arrMatch.splice(i,1);
                         break;
                     case '/':
-                        arrMatch[i+1][1] /= +arrMatch[i][1];
+                        arrMatch[i+1][1] = +arrMatch[i+1][1] / +arrMatch[i][1];
                         arrMatch.splice(i,1);
                         break;
                 }
@@ -56,12 +56,11 @@ function resultCalc(str) {
         if ( arrMatch[i][2] != undefined ) {             
             switch (arrMatch[i][2]) {                
                 case '+':
-                    console.log('складываем');
-                    arrMatch[i+1][1] += +arrMatch[i][1];
+                    arrMatch[i+1][1] = +arrMatch[i+1][1] + +arrMatch[i][1];
                     arrMatch.splice(i,1);
                     break;
                 case '-':
-                    arrMatch[i+1][1] -= +arrMatch[i][1];
+                    arrMatch[i+1][1] = +arrMatch[i+1][1] - +arrMatch[i][1];
                     arrMatch.splice(i,1);
                     break;
             }
@@ -86,6 +85,11 @@ window.addEventListener('keydown', (e) => {
     let pattern = new RegExp('(\\d+)|(\\+|\\-|\\*|\\/)');
     if ( pattern.test(e.key) ) {
         calcWindow.value += e.key
+    } else if ( e.key == 'Enter' || e.key == '=' ) {        
+        calcWindow.value = resultCalc(calcWindow.value);
+    } else if ( e.key == 'Delete' || e.key == 'Backspace' ) {
+        console.log('Я еще не умею стирать');
+        calcWindow.value = calcWindow.value.toString().pop(); // FIXME:
     }
 })
 // создать свою функцию eval с помощью регулярки
