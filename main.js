@@ -35,32 +35,35 @@ function resultCalc(str) {
     const findPriorityMath = new RegExp("(\\*|\\/)");
     var arrMatch = [...str.matchAll(findMath)];
     var i = 0;
+    console.log(findPriorityMath.test(str));
     next:for (let i = 0; arrMatch.length > 1; i++) {
         if ( i >= arrMatch.length - 1) 
             i = 0;
         if ( arrMatch[i][2] != undefined ) { 
-            if ( findPriorityMath.test.str != null ) {
-                console.log('есть')
+            if ( findPriorityMath.test(str) ) { // Исправить str (Оно не изменяется)
                 switch (arrMatch[i][2]) {
                     case '*':
+                        console.log('умножаем');
                         arrMatch[i+1][1] = +arrMatch[i][1] * +arrMatch[i+1][1];
                         arrMatch.splice(i,1);
-                        continue next;
+                        break;
                     case '/':
                         arrMatch[i+1][1] = +arrMatch[i][1] / +arrMatch[i+1][1];
                         arrMatch.splice(i,1);
-                        continue next;
+                        break;
                 }
-            }
-            switch (arrMatch[i][2]) {                
-                case '+':
-                    arrMatch[i+1][1] = +arrMatch[i][1] + +arrMatch[i+1][1];
-                    arrMatch.splice(i,1);
-                    break;
-                case '-':
-                    arrMatch[i+1][1] = +arrMatch[i][1] - +arrMatch[i+1][1];
-                    arrMatch.splice(i,1);
-                    break;
+            } else {
+                switch (arrMatch[i][2]) {                
+                    case '+':
+                        console.log('складываем');
+                        arrMatch[i+1][1] = +arrMatch[i][1] + +arrMatch[i+1][1];
+                        arrMatch.splice(i,1);
+                        break;
+                    case '-':
+                        arrMatch[i+1][1] = +arrMatch[i][1] - +arrMatch[i+1][1];
+                        arrMatch.splice(i,1);
+                        break;
+                }
             }
         }
         
@@ -71,7 +74,7 @@ function test(str) {
     const findPriorityMath = new RegExp();
 }
 // создать свою функцию eval с помощью регулярки
-var str = '1+10+300+5+4-100*1';
+var str = '2+2*2';
 console.log();
 // var regul = /(\d+)(\+|\-|\*|\\)?/g;
 // while (result = regul.exec(teststr)) {
