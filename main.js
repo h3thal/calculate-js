@@ -31,32 +31,47 @@ class CalculateButton {
     }
 }
 function resultCalc(str) {
-    const findMath = new RegExp("(\\d+)(\\+|\\-|\\*|\\\\)?", "g");
+    const findMath = new RegExp("(\\d+)(\\+|\\-|\\*|\\/)?", "g");
+    const findPriorityMath = new RegExp("(\\*|\\/)");
     var arrMatch = [...str.matchAll(findMath)];
     var i = 0;
-    for (let i = 0; arrMatch.length > 1; i++) {
+    next:for (let i = 0; arrMatch.length > 1; i++) {
         if ( i >= arrMatch.length - 1) 
             i = 0;
-        countingCalc(i);
+        if ( arrMatch[i][2] != undefined ) { 
+            if ( findPriorityMath.test.str != null ) {
+                console.log('есть')
+                switch (arrMatch[i][2]) {
+                    case '*':
+                        arrMatch[i+1][1] = +arrMatch[i][1] * +arrMatch[i+1][1];
+                        arrMatch.splice(i,1);
+                        continue next;
+                    case '/':
+                        arrMatch[i+1][1] = +arrMatch[i][1] / +arrMatch[i+1][1];
+                        arrMatch.splice(i,1);
+                        continue next;
+                }
+            }
+            switch (arrMatch[i][2]) {                
+                case '+':
+                    arrMatch[i+1][1] = +arrMatch[i][1] + +arrMatch[i+1][1];
+                    arrMatch.splice(i,1);
+                    break;
+                case '-':
+                    arrMatch[i+1][1] = +arrMatch[i][1] - +arrMatch[i+1][1];
+                    arrMatch.splice(i,1);
+                    break;
+            }
+        }
+        
     }
     return arrMatch[0][1]
 }
-function countingCalc(i) {
-    if ( arrMatch[i][2] != undefined ) {           
-        switch (arrMatch[i][2]) {                
-            case '+':
-                arrMatch[i+1][1] = +arrMatch[i][1] + +arrMatch[i+1][1];
-                arrMatch.splice(i,1);
-                break;
-            case '-':
-                arrMatch[i+1][1] = +arrMatch[i][1] - +arrMatch[i+1][1];
-                arrMatch.splice(i,1);
-                break;
-        }
-    }
+function test(str) {
+    const findPriorityMath = new RegExp();
 }
 // создать свою функцию eval с помощью регулярки
-var str = '1+10+300+5+4-100';
+var str = '1+10+300+5+4-100*1';
 console.log();
 // var regul = /(\d+)(\+|\-|\*|\\)?/g;
 // while (result = regul.exec(teststr)) {
