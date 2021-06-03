@@ -4,7 +4,7 @@ let arrNumbAndMath = [...arrMathOperation, ...arrNumber];
 var arrObjectButton = [];
 const template = `
     <div id='calc'>
-        <input type='number'/>
+        <input id='calcWindow' type='text'/>
     </div>
 `;
 
@@ -25,7 +25,7 @@ class CalculateButton {
         elem.innerText = text;
         calc.append(elem);
         elem.addEventListener('click', () => {
-            console.log(this.text);
+            calcWindow.value += text.toString();
         });
         arrObjectButton.push(this);
     }
@@ -34,55 +34,61 @@ function resultCalc(str) {
     const findMath = new RegExp("(\\d+)(\\+|\\-|\\*|\\/)?", "g");
     const findPriorityMath = new RegExp("(\\*|\\/)");
     var arrMatch = [...str.matchAll(findMath)];
-    var i = 0;
-    console.log(findPriorityMath.test(str));
-    next:for (let i = 0; arrMatch.length > 1; i++) {
-        if ( i >= arrMatch.length - 1) 
-            i = 0;
-        if ( arrMatch[i][2] != undefined ) { 
-            if ( findPriorityMath.test(str) ) { // Исправить str (Оно не изменяется)
+    if ( findPriorityMath.test(str) ) {
+        for (let i = 0; i < arrMatch.length - 1; i++) {
+            if ( arrMatch[i][2] != undefined ) { 
                 switch (arrMatch[i][2]) {
                     case '*':
-                        console.log('умножаем');
-                        arrMatch[i+1][1] = +arrMatch[i][1] * +arrMatch[i+1][1];
+                        arrMatch[i+1][1] *= +arrMatch[i][1];
                         arrMatch.splice(i,1);
                         break;
                     case '/':
-                        arrMatch[i+1][1] = +arrMatch[i][1] / +arrMatch[i+1][1];
+                        arrMatch[i+1][1] /= +arrMatch[i][1];
                         arrMatch.splice(i,1);
                         break;
                 }
-            } else {
-                switch (arrMatch[i][2]) {                
-                    case '+':
-                        console.log('складываем');
-                        arrMatch[i+1][1] = +arrMatch[i][1] + +arrMatch[i+1][1];
-                        arrMatch.splice(i,1);
-                        break;
-                    case '-':
-                        arrMatch[i+1][1] = +arrMatch[i][1] - +arrMatch[i+1][1];
-                        arrMatch.splice(i,1);
-                        break;
-                }
+            }
+        }
+    } 
+    for (let i = 0; arrMatch.length > 1; i++) {
+        if ( i >= arrMatch.length - 1) 
+            i = 0;
+        if ( arrMatch[i][2] != undefined ) {             
+            switch (arrMatch[i][2]) {                
+                case '+':
+                    console.log('складываем');
+                    arrMatch[i+1][1] += +arrMatch[i][1];
+                    arrMatch.splice(i,1);
+                    break;
+                case '-':
+                    arrMatch[i+1][1] -= +arrMatch[i][1];
+                    arrMatch.splice(i,1);
+                    break;
             }
         }
         
     }
     return arrMatch[0][1]
 }
-function test(str) {
-    const findPriorityMath = new RegExp();
-}
-// создать свою функцию eval с помощью регулярки
-var str = '2+2*2';
-console.log();
-// var regul = /(\d+)(\+|\-|\*|\\)?/g;
-// while (result = regul.exec(teststr)) {
-//     console.log( `Найдено ${result[0]} на позиции ${result.index}` );
-//     // Найдено JavaScript на позиции 9, затем
-//     // Найдено javascript на позиции 31
-//   }
-
-
 
 new Calculate();
+
+calcWindow.addEventListener('keydown', function (e) {
+    e.preventDefault();
+    let pattern = new RegExp('(\\d+)|(\\+|\\-|\\*|\\/)');
+    if ( pattern.test(e.key) ) {
+        this.value += e.key
+    }
+    
+});
+window.addEventListener('keydown', (e) => {
+    e.preventDefault();
+    let pattern = new RegExp('(\\d+)|(\\+|\\-|\\*|\\/)');
+    if ( pattern.test(e.key) ) {
+        calcWindow.value += e.key
+    }
+})
+// создать свою функцию eval с помощью регулярки
+var str = '2+2*2';
+
+
