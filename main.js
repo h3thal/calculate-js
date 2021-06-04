@@ -82,7 +82,7 @@ calcWindow.addEventListener('keydown', function (e) {
 });
 window.addEventListener('keydown', (e) => {
     e.preventDefault();
-    let pattern = new RegExp('([^a-zA-Z]\\d+)|(\\+|\\-|\\*|\\/)'); // Исправить:
+    let pattern = new RegExp('^(\\d)$|^(\\d)|(\\+|\\-|\\*|\\/)$');
     console.log(pattern.test(e.key));
     if ( pattern.test(e.key) ) {
         calcWindow.value += e.key
@@ -92,7 +92,5 @@ window.addEventListener('keydown', (e) => {
         calcWindow.value = calcWindow.value.substring(0, calcWindow.value.length-1);
     }
 })
-// создать свою функцию eval с помощью регулярки
-var str = '2+2*2';
 
 
