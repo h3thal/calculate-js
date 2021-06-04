@@ -1,10 +1,11 @@
 let arrMathOperation = ['+','-', '*', '/'];
-let arrNumber = [...Array.from({length: 9}, (v, k) => k + 1 ), 0];
+let arrNumber = [...Array.from({length: 9}, (v, k) => k + 1 ), 0, '=', 'del'];
 let arrNumbAndMath = [...arrMathOperation, ...arrNumber];
 var arrObjectButton = [];
 const template = `
     <div id='calc'>
         <input id='calcWindow' type='text'/>
+        <div class='calcButtons' id='calcButtons'></div>
     </div>
 `;
 
@@ -20,12 +21,19 @@ class Calculate {
 class CalculateButton {
     constructor (text) {
         this.text = text;
-        let elem =  document.createElement('button');
+        let elem =  document.createElement('div');
         this.getElem = elem;
         elem.innerText = text;
-        calc.append(elem);
+        elem.classList.add('calcButton')
+        calcButtons.append(elem);
         elem.addEventListener('click', () => {
-            calcWindow.value += text.toString();
+            if (text == '=') {
+                calcWindow.value = resultCalc(calcWindow.value);
+            } else if (text == 'del') {
+                calcWindow.value = calcWindow.value.substring(0, calcWindow.value.length-1);
+            } else {
+                calcWindow.value += text.toString();
+            }
         });
         arrObjectButton.push(this);
     }
@@ -39,11 +47,11 @@ function resultCalc(str) {
             if ( arrMatch[i][2] != undefined ) { 
                 switch (arrMatch[i][2]) {
                     case '*':
-                        arrMatch[i+1][1] = +arrMatch[i+1][1] * +arrMatch[i][1];
+                        arrMatch[i+1][1] = +arrMatch[i][1] * +arrMatch[i+1][1];
                         arrMatch.splice(i,1);
                         break;
                     case '/':
-                        arrMatch[i+1][1] = +arrMatch[i+1][1] / +arrMatch[i][1];
+                        arrMatch[i+1][1] = +arrMatch[i][1] / +arrMatch[i+1][1];
                         arrMatch.splice(i,1);
                         break;
                 }
@@ -56,11 +64,11 @@ function resultCalc(str) {
         if ( arrMatch[i][2] != undefined ) {             
             switch (arrMatch[i][2]) {                
                 case '+':
-                    arrMatch[i+1][1] = +arrMatch[i+1][1] + +arrMatch[i][1];
+                    arrMatch[i+1][1] = +arrMatch[i][1] + +arrMatch[i+1][1];
                     arrMatch.splice(i,1);
                     break;
                 case '-':
-                    arrMatch[i+1][1] = +arrMatch[i+1][1] - +arrMatch[i][1];
+                    arrMatch[i+1][1] = +arrMatch[i][1] - +arrMatch[i+1][1];
                     arrMatch.splice(i,1);
                     break;
             }
@@ -72,18 +80,9 @@ function resultCalc(str) {
 
 new Calculate();
 
-calcWindow.addEventListener('keydown', function (e) {
-    e.preventDefault();
-    let pattern = new RegExp('(\\d+)|(\\+|\\-|\\*|\\/)');
-    if ( pattern.test(e.key) ) {
-        this.value += e.key
-    }
-    
-});
 window.addEventListener('keydown', (e) => {
     e.preventDefault();
     let pattern = new RegExp('^(\\d)$|^(\\d)|(\\+|\\-|\\*|\\/)$');
-    console.log(pattern.test(e.key));
     if ( pattern.test(e.key) ) {
         calcWindow.value += e.key
     } else if ( e.key == 'Enter' || e.key == '=' ) {        
