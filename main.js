@@ -82,14 +82,14 @@ calcWindow.addEventListener('keydown', function (e) {
 });
 window.addEventListener('keydown', (e) => {
     e.preventDefault();
-    let pattern = new RegExp('(\\d+)|(\\+|\\-|\\*|\\/)');
+    let pattern = new RegExp('([^a-zA-Z]\\d+)|(\\+|\\-|\\*|\\/)'); // Исправить:
+    console.log(pattern.test(e.key));
     if ( pattern.test(e.key) ) {
         calcWindow.value += e.key
     } else if ( e.key == 'Enter' || e.key == '=' ) {        
         calcWindow.value = resultCalc(calcWindow.value);
     } else if ( e.key == 'Delete' || e.key == 'Backspace' ) {
-        console.log('Я еще не умею стирать');
-        calcWindow.value = calcWindow.value.toString().pop(); // FIXME:
+        calcWindow.value = calcWindow.value.substring(0, calcWindow.value.length-1);
     }
 })
 // создать свою функцию eval с помощью регулярки
